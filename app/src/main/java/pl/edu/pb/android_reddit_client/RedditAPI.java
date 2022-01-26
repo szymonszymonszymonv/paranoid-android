@@ -12,4 +12,7 @@ public interface RedditAPI {
     @GET("r/all")
     Call<List<Post>> getPosts();
 
+    @GET("r/all/sdb8n8")
+    Call<List<Comment>> getComments();
+
 }

@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/content_main.xml" value="0.33" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/fragment_first.xml" value="0.33" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/fragment_second.xml" value="0.33" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/menu/menu_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/kalar/AndroidStudioProjects/android_reddit_client/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/kalar/AndroidStudioProjects/android_reddit_client/app/src/main/res/layout/content_main.xml" value="0.33" />
         <entry key="..\:/Users/kalar/AndroidStudioProjects/android_reddit_client/app/src/main/res/layout/fragment_first.xml" value="0.5" />

@@ -36,7 +36,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.8:5000/")
+                .baseUrl("http://192.168.1.14:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
