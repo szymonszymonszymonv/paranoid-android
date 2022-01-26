@@ -1,15 +1,24 @@
 package pl.edu.pb.android_reddit_client;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.util.List;
+
 import pl.edu.pb.android_reddit_client.databinding.FragmentFirstBinding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirstFragment extends Fragment {
 
@@ -20,14 +29,40 @@ public class FirstFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.8:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+
+        Call<List<Post>> call = redditAPI.getPosts();
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                List<Post> posts = response.body();
+                Post firstPost = posts.get(0);
+                String str = String.format("author: %s%nsubreddit: %s%ntitle: %s%nscore: %s",
+                        firstPost.getAuthor(),
+                        firstPost.getSubreddit(),
+                        firstPost.getTitle(),
+                        firstPost.getScore());
+                binding.postTitle.setText(str);
+                Log.d("getPosts", firstPost.getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.d("getPosts", t.getMessage());
+            }
+        });
+
 
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override

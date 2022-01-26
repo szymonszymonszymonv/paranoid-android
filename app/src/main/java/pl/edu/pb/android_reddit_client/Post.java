@@ -4,7 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Post {
+
     @SerializedName("id")
     private String id;
 
@@ -23,8 +29,8 @@ public class Post {
     @SerializedName("imageUrl")
     private String imageUrl;
 
-    @SerializedName("medias")
-    private List<String> medias; // change to proper type later
+//    @SerializedName("medias")
+//    private List<String> medias; // change to proper type later
 
     @SerializedName("score")
     private int score;
