@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.List;
+import java.util.TreeMap;
 
+import de.blox.treeview.BaseTreeAdapter;
+import de.blox.treeview.TreeNode;
+import de.blox.treeview.TreeView;
 import pl.edu.pb.android_reddit_client.databinding.FragmentSecondBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +48,48 @@ public class SecondFragment extends Fragment {
                 .build();
 
         displayComments(retrofit);
+        TreeView treeView= binding.treeViewComments;
+
+        BaseTreeAdapter<ViewHolder> adapter= new BaseTreeAdapter<ViewHolder>(this.getActivity(), R.layout.node){
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(View view) {
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(ViewHolder viewHolder, Object data, int position) {
+                viewHolder.textView.setText(data.toString());
+            }
+        };
+        treeView.setAdapter(adapter);
+        TreeNode rootNode = new TreeNode("Root");
+        TreeNode child1 = new TreeNode("child1");
+        TreeNode child2 = new TreeNode("child2");
+        TreeNode child3 = new TreeNode("child3");
+        TreeNode child4 = new TreeNode("child4");
+        TreeNode child5 = new TreeNode("child5");
+
+        child1.addChild(child2);
+        child2.addChild(child3);
+        child3.addChild(child4);
+        child3.addChild(child5);
+
+
+
+
+//        child1.addChildren(child2, child3, child4, child5);
+
+//        child1.addChild(child3);
+
+
+        rootNode.addChild(child1);
+
+
+        adapter.setRootNode(rootNode);
+
+
 
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
@@ -72,10 +119,12 @@ public class SecondFragment extends Fragment {
                             comment.getBody(),
                             comment.getScore());
 //                    binding.comments.append(str);
+
                     binding.ScrollViewComments.append(str);
 
                     Log.d("getComments", comment.getBody());
                 }
+
 
 //                Comment firstComment = comments.get(0);
 //                String str = String.format("author: %s%nbody: %s%nscore: %s",
