@@ -7,12 +7,15 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
+
 public class Comment {
-    @Getter
-    @Setter
+
 
     @SerializedName("id")
     private String id;
+
 
     @SerializedName("body")
     private String body;
