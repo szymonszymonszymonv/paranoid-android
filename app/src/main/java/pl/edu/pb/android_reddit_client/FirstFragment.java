@@ -74,6 +74,7 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
             }
         });
     }
+
     public void initRecyclerView() {
         recyclerView = binding.recyclerView;
         postsAdapter = new PostsAdapter(postList, this);

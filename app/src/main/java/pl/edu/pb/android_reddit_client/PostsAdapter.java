@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -30,11 +31,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             onPostClickListener = listener;
             binding.getRoot().setOnClickListener(this);
         }
-
         public void bind(Post post) {
             binding.authorText.setText(post.getAuthor());
             binding.subredditText.setText(post.getSubreddit());
             binding.titleText.setText(post.getTitle());
+            binding.timeText.setText(post.getTimeInHours());
         }
 
         @Override
