@@ -6,13 +6,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface RedditAPI {
 
     @GET("r/all")
     Call<List<Post>> getPosts();
 
-    @GET("r/all/sdb8n8")
-    Call<List<Comment>> getComments();
+    @GET("r/all/{id}")
+    Call<List<Comment>> getComments(@Path("id") String postId);
 
 }

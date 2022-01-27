@@ -42,24 +42,39 @@ public class SecondFragment extends Fragment {
                 .build();
 
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+        Bundle bundle = this.getArguments();
 
-        Call<List<Comment>> call = redditAPI.getComments();
+        String postId = requireArguments().getString("postId");
+
+
+
+
+        Call<List<Comment>> call = redditAPI.getComments(postId);
+
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 List<Comment> comments = response.body();
-                Comment firstComment = comments.get(0);
-                String str = String.format("author: %s%nbody: %s%nscore: %s",
-                        firstComment.getAuthor(),
-                        firstComment.getBody(),
-                        firstComment.getScore());
-                binding.comments.setText(str);
-                Log.d("getCommentsBody", firstComment.getBody());
+                for (Comment comment : comments){
+                    String str = String.format("author: %s%nbody: %s%nscore: %s %n %n",
+                            comment.getAuthor(),
+                            comment.getBody(),
+                            comment.getScore());
+                    binding.comments.append(str);
+                    Log.d("getComments", comment.getBody());
+                }
+//                Comment firstComment = comments.get(0);
+//                String str = String.format("author: %s%nbody: %s%nscore: %s",
+//                        firstComment.getAuthor(),
+//                        firstComment.getBody(),
+//                        firstComment.getScore());
+//                binding.comments.setText(str);
+//                Log.d("getComments", firstComment.getBody());
             }
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-                Log.d("getCommentsBody", t.getMessage());
+                Log.d("getComments", t.getMessage());
             }
             });
 

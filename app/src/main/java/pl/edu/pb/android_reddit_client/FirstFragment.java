@@ -23,6 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
+    private String postId;
+
+    public FirstFragment(){
+
+    }
 
     @Override
     public View onCreateView(
@@ -48,6 +53,8 @@ public class FirstFragment extends Fragment {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 List<Post> posts = response.body();
                 Post firstPost = posts.get(0);
+
+                postId = firstPost.getId();
                 String str = String.format("author: %s%nsubreddit: %s%ntitle: %s%nscore: %s",
                         firstPost.getAuthor(),
                         firstPost.getSubreddit(),
@@ -67,8 +74,13 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("postId", postId);
+
                 NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment, bundle);
+
+
             }
         });
     }
