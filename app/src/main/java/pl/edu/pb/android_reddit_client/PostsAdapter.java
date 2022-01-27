@@ -30,12 +30,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             super(binding.getRoot());
             onPostClickListener = listener;
             binding.getRoot().setOnClickListener(this);
+
         }
         public void bind(Post post) {
             binding.authorText.setText(post.getAuthor());
             binding.subredditText.setText(post.getSubreddit());
             binding.titleText.setText(post.getTitle());
             binding.timeText.setText(post.getTimeInHours());
+            binding.includeSubmissionScore.submissionScore.setText(post.getScore()+"");
         }
 
         @Override
