@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,13 +42,22 @@ public class SecondFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        displayComments(retrofit);
+
+
+        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(SecondFragment.this)
+                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+            }
+        });
+    }
+
+    public void displayComments(Retrofit retrofit) {
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-        Bundle bundle = this.getArguments();
 
         String postId = requireArguments().getString("postId");
-
-
-
 
         Call<List<Comment>> call = redditAPI.getComments(postId);
 
@@ -55,14 +65,18 @@ public class SecondFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 List<Comment> comments = response.body();
+
                 for (Comment comment : comments){
                     String str = String.format("author: %s%nbody: %s%nscore: %s %n %n",
                             comment.getAuthor(),
                             comment.getBody(),
                             comment.getScore());
-                    binding.comments.append(str);
+//                    binding.comments.append(str);
+                    binding.ScrollViewComments.append(str);
+
                     Log.d("getComments", comment.getBody());
                 }
+
 //                Comment firstComment = comments.get(0);
 //                String str = String.format("author: %s%nbody: %s%nscore: %s",
 //                        firstComment.getAuthor(),
@@ -75,15 +89,6 @@ public class SecondFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
                 Log.d("getComments", t.getMessage());
-            }
-            });
-
-
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
     }
