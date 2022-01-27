@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -23,6 +25,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
+    private RecyclerView recyclerView;
+    private PostsAdapter postsAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<Post> postList;
+    private RedditAPI redditAPI;
 
     @Override
     public View onCreateView(
@@ -40,21 +47,24 @@ public class FirstFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+        redditAPI = retrofit.create(RedditAPI.class);
+        getPosts();
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    public void getPosts() {
         Call<List<Post>> call = redditAPI.getPosts();
         call.enqueue(new Callback<List<Post>>() {
             @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 List<Post> posts = response.body();
-                Post firstPost = posts.get(0);
-                String str = String.format("author: %s%nsubreddit: %s%ntitle: %s%nscore: %s",
-                        firstPost.getAuthor(),
-                        firstPost.getSubreddit(),
-                        firstPost.getTitle(),
-                        firstPost.getScore());
-                binding.postTitle.setText(str);
-                Log.d("getPosts", firstPost.getTitle());
+                postList = posts;
+                setRecyclerView();
             }
 
             @Override
@@ -62,21 +72,13 @@ public class FirstFragment extends Fragment {
                 Log.d("getPosts", t.getMessage());
             }
         });
-
-
-        binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-            }
-        });
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void setRecyclerView() {
+        recyclerView = (RecyclerView) binding.recyclerView;
+        postsAdapter = new PostsAdapter(postList);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setAdapter(postsAdapter);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
 }

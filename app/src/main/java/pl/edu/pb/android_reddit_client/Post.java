@@ -40,4 +40,5 @@ public class Post {
 
     @SerializedName("likes")
     private boolean likes;
+
 }
