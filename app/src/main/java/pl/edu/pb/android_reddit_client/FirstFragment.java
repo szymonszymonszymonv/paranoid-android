@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +23,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FirstFragment extends Fragment {
-
+public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickListener {
+    private final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
     private RecyclerView recyclerView;
     private PostsAdapter postsAdapter;
@@ -41,12 +42,12 @@ public class FirstFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.14:5000/")
+                .baseUrl("http://192.168.1.8:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         redditAPI = retrofit.create(RedditAPI.class);
         getPosts();
     }
@@ -64,21 +65,29 @@ public class FirstFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 List<Post> posts = response.body();
                 postList = posts;
-                setRecyclerView();
+                initRecyclerView();
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                Log.d("getPosts", t.getMessage());
+                Log.d(TAG, t.getMessage());
             }
         });
     }
-    public void setRecyclerView() {
-        recyclerView = (RecyclerView) binding.recyclerView;
-        postsAdapter = new PostsAdapter(postList);
+    public void initRecyclerView() {
+        recyclerView = binding.recyclerView;
+        postsAdapter = new PostsAdapter(postList, this);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(postsAdapter);
         recyclerView.setLayoutManager(layoutManager);
     }
 
+    @Override
+    public void onPostClick(int position) {
+        Post post = postList.get(position);
+        Log.d(TAG, "clicked a post " + post.getId());
+        FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment();
+        action.setPostId(post.getId());
+        Navigation.findNavController(binding.getRoot()).navigate(action);
+    }
 }

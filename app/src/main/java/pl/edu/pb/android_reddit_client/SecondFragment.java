@@ -41,6 +41,11 @@ public class SecondFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        if(getArguments() != null) {
+            String postId = SecondFragmentArgs.fromBundle(getArguments()).getPostId();
+            Log.d("onViewCreated", postId);
+        }
+
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
 
         Call<List<Comment>> call = redditAPI.getComments();
