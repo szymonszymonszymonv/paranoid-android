@@ -129,6 +129,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
                     Call<Comment> call = redditAPI.commentUpvote(comment.getId());
 
+
+
                     call.enqueue(new Callback<Comment>() {
                         @Override
                         public void onResponse(Call<Comment> call, Response<Comment> response) {
@@ -142,7 +144,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                             Log.d("getComments", t.getMessage());
                         }
                     });
-//
+
 
 
                 }

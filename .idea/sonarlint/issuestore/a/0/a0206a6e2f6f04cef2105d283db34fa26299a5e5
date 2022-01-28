@@ -1,9 +1,0 @@
-
-s
-java:S1450 "VRemove the "binding" field and declare it as a local variable in the relevant methods.(¶ÃÊ8Â½éé/
-„
-java:S32523"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(õ‰¯à8î½éé/
-J
-java:S1068!"-Remove this unused "postTitle" private field.(¾¨÷ü8ş½éé/
-E
-java:S16040"(Make this anonymous inner class a lambda(•Àˆ’8€¾éé/

@@ -77,6 +77,10 @@ fastlane/readme.md
 # Version control
 vcs.xml
 
+# misc
+/server/node_modules
+secret.json
+
 # lint
 lint/intermediates/
 lint/generated/
