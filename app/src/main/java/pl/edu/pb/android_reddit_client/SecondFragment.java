@@ -30,9 +30,9 @@ public class SecondFragment extends Fragment {
 
     private CommentsAdapter commentsAdapter;
     private List<Comment> parentCommentArrayList;
-    private List<Comment> childCommentArrayList;
     private RecyclerView recyclerViewParrent;
     private RecyclerView.LayoutManager layoutManager;
+    private RedditAPI redditAPI;
 
     @Override
     public View onCreateView(
@@ -70,7 +70,7 @@ public class SecondFragment extends Fragment {
 
     public void initRecyclerViewParent() {
         recyclerViewParrent = binding.RecycleViewCommentsParrent;
-        commentsAdapter = new CommentsAdapter(parentCommentArrayList, getActivity(), childCommentArrayList);
+        commentsAdapter = new CommentsAdapter(parentCommentArrayList, getActivity(), redditAPI);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewParrent.setLayoutManager(layoutManager);
         recyclerViewParrent.setAdapter(commentsAdapter);
@@ -78,7 +78,7 @@ public class SecondFragment extends Fragment {
     }
 
     public void displayComments(Retrofit retrofit) {
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+        redditAPI = retrofit.create(RedditAPI.class);
 
         if(getArguments() != null) {
             postId = SecondFragmentArgs.fromBundle(getArguments()).getPostId();
@@ -87,31 +87,16 @@ public class SecondFragment extends Fragment {
 
         Call<List<Comment>> call = redditAPI.getComments(postId);
 
+
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 List<Comment> comments = response.body();
-                parentCommentArrayList = comments;
-                childCommentArrayList = comments;
-                initRecyclerViewParent();
-//                for (Comment comment : comments){
-//                    String str = String.format("author: %s%nbody: %s%nscore: %s %n %n",
-//                            comment.getAuthor(),
-//                            comment.getBody(),
-//                            comment.getScore());
-////                    binding.comments.append(str);
-//                    binding.ScrollViewComments.append(str);
-//
-//                    Log.d("getComments", comment.getBody());
-//                }
 
-//                Comment firstComment = comments.get(0);
-//                String str = String.format("author: %s%nbody: %s%nscore: %s",
-//                        firstComment.getAuthor(),
-//                        firstComment.getBody(),
-//                        firstComment.getScore());
-//                binding.comments.setText(str);
-//                Log.d("getComments", firstComment.getBody());
+                parentCommentArrayList = comments;
+
+
+                initRecyclerViewParent();
             }
 
             @Override

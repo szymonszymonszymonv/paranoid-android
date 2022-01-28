@@ -13,6 +13,7 @@ import lombok.Setter;
 public class Comment {
 
 
+
     @SerializedName("id")
     private String id;
 
@@ -34,5 +35,7 @@ public class Comment {
 
     @SerializedName("likes")
     private boolean likes;
+
+
 
 }

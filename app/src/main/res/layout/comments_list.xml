@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="8dp">
+    android:layout_margin="4dp"
+    android:alwaysDrawnWithCache="false"
+    android:elevation="0dp"
+    app:cardBackgroundColor="#C6C6C6"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="10dp"
+    app:cardUseCompatPadding="false"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
+        android:id="@+id/comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -18,11 +28,8 @@
             android:layout_height="wrap_content">
 
 
-
-
-
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:orientation="horizontal">
@@ -37,33 +44,39 @@
                     android:id="@+id/parent_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="10dp"
+                    android:padding="5dp"
                     android:text="autor"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/parent_score"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/parent_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="5dp"
                     android:text="time"
+
                     android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toEndOf="@+id/parent_author"
+                    app:layout_constraintTop_toTopOf="@+id/parent_author" />
 
-
-
-                <TextView
-                    android:id="@+id/parent_body"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-80dp"
-                    android:layout_marginTop="30dp"
-                    android:text="body"
-                    android:textSize="12sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/parent_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="30dp"
+                android:padding="5dp"
+
+                android:text="body"
+                android:textSize="12sp" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +85,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="20dp"
                 android:text=">"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
 
         </RelativeLayout>

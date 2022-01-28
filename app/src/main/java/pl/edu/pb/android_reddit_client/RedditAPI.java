@@ -6,6 +6,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RedditAPI {
@@ -15,5 +16,11 @@ public interface RedditAPI {
 
     @GET("r/all/{id}")
     Call<List<Comment>> getComments(@Path("id") String postId);
+
+
+    @POST("comment/{id}/upvote")
+    Call<Comment> commentUpvote(@Path("id") String postId);
+
+
 
 }
