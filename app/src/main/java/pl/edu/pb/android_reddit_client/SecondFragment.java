@@ -5,11 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.pb.android_reddit_client.databinding.FragmentSecondBinding;
@@ -22,6 +26,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SecondFragment extends Fragment {
 
     private FragmentSecondBinding binding;
+    private String postId;
+
+    private CommentsAdapter commentsAdapter;
+    private List<Comment> parentCommentArrayList;
+    private List<Comment> childCommentArrayList;
+    private RecyclerView recyclerViewParrent;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     public View onCreateView(
@@ -32,7 +43,10 @@ public class SecondFragment extends Fragment {
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
+
     }
+
+
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -41,32 +55,8 @@ public class SecondFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        if(getArguments() != null) {
-            String postId = SecondFragmentArgs.fromBundle(getArguments()).getPostId();
-            Log.d("onViewCreated", postId);
-        }
 
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-
-        Call<List<Comment>> call = redditAPI.getComments();
-        call.enqueue(new Callback<List<Comment>>() {
-            @Override
-            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-                List<Comment> comments = response.body();
-                Comment firstComment = comments.get(0);
-                String str = String.format("author: %s%nbody: %s%nscore: %s",
-                        firstComment.getAuthor(),
-                        firstComment.getBody(),
-                        firstComment.getScore());
-                binding.comments.setText(str);
-                Log.d("getCommentsBody", firstComment.getBody());
-            }
-
-            @Override
-            public void onFailure(Call<List<Comment>> call, Throwable t) {
-                Log.d("getCommentsBody", t.getMessage());
-            }
-            });
+        displayComments(retrofit);
 
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +64,59 @@ public class SecondFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
+            }
+        });
+    }
+
+    public void initRecyclerViewParent() {
+        recyclerViewParrent = binding.RecycleViewCommentsParrent;
+        commentsAdapter = new CommentsAdapter(parentCommentArrayList, getActivity(), childCommentArrayList);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewParrent.setLayoutManager(layoutManager);
+        recyclerViewParrent.setAdapter(commentsAdapter);
+
+    }
+
+    public void displayComments(Retrofit retrofit) {
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+
+        if(getArguments() != null) {
+            postId = SecondFragmentArgs.fromBundle(getArguments()).getPostId();
+            Log.d("onViewCreated", postId);
+        }
+
+        Call<List<Comment>> call = redditAPI.getComments(postId);
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                List<Comment> comments = response.body();
+                parentCommentArrayList = comments;
+                childCommentArrayList = comments;
+                initRecyclerViewParent();
+//                for (Comment comment : comments){
+//                    String str = String.format("author: %s%nbody: %s%nscore: %s %n %n",
+//                            comment.getAuthor(),
+//                            comment.getBody(),
+//                            comment.getScore());
+////                    binding.comments.append(str);
+//                    binding.ScrollViewComments.append(str);
+//
+//                    Log.d("getComments", comment.getBody());
+//                }
+
+//                Comment firstComment = comments.get(0);
+//                String str = String.format("author: %s%nbody: %s%nscore: %s",
+//                        firstComment.getAuthor(),
+//                        firstComment.getBody(),
+//                        firstComment.getScore());
+//                binding.comments.setText(str);
+//                Log.d("getComments", firstComment.getBody());
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Log.d("getComments", t.getMessage());
             }
         });
     }

@@ -26,11 +26,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickListener {
     private final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
+
     private RecyclerView recyclerView;
     private PostsAdapter postsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> postList;
     private RedditAPI redditAPI;
+
 
     @Override
     public View onCreateView(
@@ -45,7 +47,7 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
 
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.8:5000/")
+                .baseUrl("http://192.168.1.14:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         redditAPI = retrofit.create(RedditAPI.class);
@@ -66,6 +68,7 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
                 List<Post> posts = response.body();
                 postList = posts;
                 initRecyclerView();
+
             }
 
             @Override
@@ -75,12 +78,14 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
         });
     }
 
+
     public void initRecyclerView() {
         recyclerView = binding.recyclerView;
         postsAdapter = new PostsAdapter(postList, this);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(postsAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
     }
 
     @Override

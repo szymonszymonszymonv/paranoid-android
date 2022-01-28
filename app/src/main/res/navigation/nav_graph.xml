@@ -28,5 +28,6 @@
             android:name="postId"
             app:argType="string"
             android:defaultValue="sdm9y1" />
+
     </fragment>
 </navigation>
