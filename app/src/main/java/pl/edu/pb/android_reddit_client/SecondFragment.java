@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class SecondFragment extends Fragment {
     public void initRecyclerViewParent() {
         recyclerViewParrent = binding.RecycleViewCommentsParrent;
         commentsAdapter = new CommentsAdapter(parentCommentArrayList, getActivity(), redditAPI);
+//        ((SimpleItemAnimator) recyclerViewParrent.getItemAnimator()).setSupportsChangeAnimations(false);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewParrent.setLayoutManager(layoutManager);
         recyclerViewParrent.setAdapter(commentsAdapter);

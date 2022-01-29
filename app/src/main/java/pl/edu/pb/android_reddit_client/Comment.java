@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public class Comment {
 
-
+    private boolean expanded;
 
     @SerializedName("id")
     private String id;
@@ -37,7 +37,11 @@ public class Comment {
     private Boolean likes;
 
 
+    public boolean isExpanded() {
+        return expanded;
+    }
 
-
-
+    public void setExpanded(boolean b) {
+        expanded = b;
+    }
 }

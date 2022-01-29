@@ -1,0 +1,19 @@
+
+m
+java:S37764"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(¿¯ž€þÿÿÿÿ
+V	java:S125["<This block of commented-out lines of code should be removed.(î¤æþûÿÿÿÿ
+X	java:S125e"<This block of commented-out lines of code should be removed.(Þ§Âç8ûÄò©ê/
+Y	java:S125"<This block of commented-out lines of code should be removed.(Þ§Âç8ñßò©ê/
+O
+java:S1854™"8Remove this useless assignment to local variable "post".(¾žÎÞ
+@
+java:S1481™")Remove this unused "post" local variable.(¾žÎÞ
+R	java:S125"<This block of commented-out lines of code should be removed.(ªÎç´
+Y	java:S125¨"<This block of commented-out lines of code should be removed.(Þ§Âç8Åúò©ê/
+Y	java:S125Â"<This block of commented-out lines of code should be removed.(Þ§Âç8Æ•ó©ê/
+b
+java:S1192`"LDefine a constant instead of duplicating this literal "getComments" 4 times.(À‰â
+C
+java:S1604J"(Make this anonymous inner class a lambda(¸¢´¬øÿÿÿÿ
+?
+java:S1604"(Make this anonymous inner class a lambda(êª–

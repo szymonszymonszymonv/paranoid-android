@@ -1,0 +1,13 @@
+
+y
+java:S1450 "^Remove the "commentsAdapter" field and declare it as a local variable in the relevant methods.(Èßƒıÿÿÿÿ
+r
+java:S1450#"\Remove the "layoutManager" field and declare it as a local variable in the relevant methods.(üÉÙ¼
+}
+java:S1450""bRemove the "recyclerViewParrent" field and declare it as a local variable in the relevant methods.(ÀöôÎşÿÿÿÿ
+P
+java:S11614":Add the "@Override" annotation above this method signature(¼²Á÷
+W	java:S125K"<This block of commented-out lines of code should be removed.(à¾÷
+8ï·õ°ê/
+>
+java:S1604?"(Make this anonymous inner class a lambda(Ê†õ

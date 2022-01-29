@@ -1,17 +1,21 @@
 package pl.edu.pb.android_reddit_client;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -30,6 +34,7 @@ import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
 
+    Integer mExpandedPosition = 1;
     private Activity activity;
     private RedditAPI redditAPI;
     List<Comment> parentCommentArrayList;
@@ -57,6 +62,21 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         Comment comment = parentCommentArrayList.get(position);
         holder.bind(comment);
 
+        LinearLayout recyclerView = binding.trollId;
+//        boolean expanded = comment.isExpanded();
+//        recyclerView.setVisibility(expanded ? View.VISIBLE : View.GONE);
+
+        final boolean isExpanded = position==mExpandedPosition;
+        recyclerView.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+        holder.itemView.setActivated(isExpanded);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mExpandedPosition = isExpanded ? -1:position;
+                notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+        });
+
 //        boolean isExpanded = comment.expanded;
 //        holder.itemView.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         Log.d("clickles mnie", "TEST");
@@ -72,6 +92,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 //            notifyItemChanged(position);
 //        });
     }
+
+
+    public void onClick(View view) {
+        ViewHolder holder = (ViewHolder) view.getTag();
+
+        // Check for an expanded view, collapse if you find one
+        if (mExpandedPosition >= 0) {
+            int prev = mExpandedPosition;
+            notifyItemChanged(prev);
+        }
+        // Set the current position to "expanded"
+        mExpandedPosition = holder.getPosition();
+        notifyItemChanged(mExpandedPosition);
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -90,9 +127,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
             Log.d("bind", "comment");
 
-//            boolean expanded = comment.isExpanded();
-
-//            comment.getReplies().setVisibility(expanded ? View.VISIBLE : View.GONE);
 
             binding.parentAuthor.setText(comment.getAuthor());
             binding.parentBody.setText(comment.getBody());
@@ -261,6 +295,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                     }
                 }
             });
+
+//            binding.commentArrow.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    boolean expanded = comment.isExpanded();
+//
+//                    Log.d("log", String.valueOf(expanded));
+////                    RecyclerView recycler = binding.nestedReply;
+////
+////                    recycler.setVisibility(expanded ? View.VISIBLE : View.GONE);
+//
+//                    comment.setExpanded(!comment.isExpanded());
+//
+////                    notifyDataSetChanged();
+//                    notifyItemChanged(getBindingAdapterPosition());
+//                }
+//            });
 
         }
 

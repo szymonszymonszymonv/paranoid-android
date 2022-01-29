@@ -16,6 +16,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 
@@ -33,6 +35,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
     private Activity activity;
     private OnReplyClickListener OnReplyClickListener;
     private RedditAPI redditAPI;
+
+    private RecyclerView recyclerViewParrent;
+    private RecyclerView.LayoutManager layoutManager;
+
+    List<Comment> commentList;
+
+    private CommentsAdapter commentsAdapter;
 
     public ReplyAdapter(List<Comment> childCommentArrayList, Activity activity, RedditAPI redditAPI) {
         this.activity = activity;
@@ -120,6 +129,16 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
 
                     NotificationManagerCompat managerCompat = NotificationManagerCompat.from(activity);
                     managerCompat.notify(1, builder.build());
+
+                    Snackbar.make(binding.getRoot() , "Button clicked", Snackbar.LENGTH_LONG)
+                            .setAction("close", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            })
+                            .setActionTextColor(Color.RED)
+                            .show();
 
 
                     Call<Comment> callCommentUpvote = redditAPI.commentUpvote(comment.getId());
@@ -246,6 +265,49 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
                             //unvote
                         }
                     }
+                }
+            });
+
+            binding.replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String commentId = comment.getId();
+
+
+//                    Call<List<Comment>> call = redditAPI.getComments(commentId);
+//
+//                    call.enqueue(new Callback<List<Comment>>() {
+//                        @Override
+//                        public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+//                            List<Comment> comments = response.body();
+//
+//                            commentList = comments;
+//
+//                            initRecyclerViewParent();
+////
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<List<Comment>> call, Throwable t) {
+//                            Log.d("getComments", t.getMessage());
+//                        }
+//                    });
+
+
+//                    recyclerViewParrent = v.findViewById(R.id.RecycleViewCommentsParrent);
+//                    commentsAdapter = new CommentsAdapter(comment.getReplies(), activity, redditAPI);
+////                    layoutManager = new LinearLayoutManager(activity);
+//
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+//                    recyclerViewParrent.addView(binding.getRoot());
+////
+////                    recyclerViewParrent.setLayoutManager(linearLayoutManager);
+//                    recyclerViewParrent.setAdapter(commentsAdapter);
+
+
+
+
                 }
             });
 

@@ -1,0 +1,16 @@
+
+h	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Èäõÿÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(†Èäõÿÿÿÿÿ
+r
+java:S1450 "\Remove the "layoutManager" field and declare it as a local variable in the relevant methods.(üÉÙ¼
+v
+java:S1450"[Remove the "postsAdapter" field and declare it as a local variable in the relevant methods.(«„Ìúÿÿÿÿ
+v
+java:S1450"[Remove the "recyclerView" field and declare it as a local variable in the relevant methods.(¿á© ýÿÿÿÿ
+P
+java:S1161.":Add the "@Override" annotation above this method signature(¼²Á÷
+V
+java:S1128"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ8ÿøò¥ê/
+k
+java:S1128"IRemove this unused import 'androidx.navigation.fragment.NavHostFragment'.(ÐÖØ–ýÿÿÿÿ8€ùò¥ê/

@@ -79,6 +79,7 @@
 
 
             <TextView
+                android:id="@+id/comment_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -90,13 +91,19 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nested_reply"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:padding="8dp"/>
+        <LinearLayout
+            android:id="@+id/troll_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nested_reply"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"/>
+        </LinearLayout>
 
 
 
