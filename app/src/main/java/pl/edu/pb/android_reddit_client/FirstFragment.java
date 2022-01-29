@@ -81,7 +81,7 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
 
     public void initRecyclerView() {
         recyclerView = binding.recyclerView;
-        postsAdapter = new PostsAdapter(postList, this);
+        postsAdapter = new PostsAdapter(postList, this, redditAPI);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(postsAdapter);
         recyclerView.setLayoutManager(layoutManager);

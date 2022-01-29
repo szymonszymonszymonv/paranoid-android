@@ -139,7 +139,8 @@ app.get('/', async (req, res) => {
             imageUrl: post.url_overridden_by_dest,
             timeInHours: timeString(hours),
             likes: post.likes,
-            medias: medias
+            medias: medias,
+
         }
     })
     let object = {
@@ -197,7 +198,9 @@ app.get('/r/:subreddit', async (req, res) => {
             imageUrl: url,
             timeInHours: timeString(hours),
             likes: post.likes,
-            medias: medias
+            medias: medias,
+
+
         }
     })
 
@@ -219,7 +222,8 @@ let constructComment = (comment) => {
         score: comment.score,
         parentId: comment.parent_id,
         timeInHours: timeString(hours),
-        likes: comment.likes
+        likes: comment.likes,
+
     }
     return commentObj
 }
@@ -306,7 +310,8 @@ app.get(`/r/:subreddit/:id/loadMore`, async (req, res) => {
             imageUrl: url,
             timeInHours: timeString(hours),
             likes: post.likes,
-            medias: medias
+            medias: medias,
+
         }
     })
 
@@ -359,7 +364,7 @@ app.post(`/comment/:id/upvote`, (req, res) => {
     if (reddit_user) {
         r = reddit_user
     }
-    
+
     r.getComment(id).author.name.then(console.log)
     r.getComment(id).upvote()
         .then(res => { console.log(res) })
@@ -523,7 +528,8 @@ app.get(`/search/:searchQuery`, (req, res) => {
                 imageUrl: url,
                 timeInHours: timeString(hours),
                 likes: post.likes,
-                medias: medias
+                medias: medias,
+
             }
         })
 

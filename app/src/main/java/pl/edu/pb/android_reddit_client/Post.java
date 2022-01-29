@@ -39,6 +39,8 @@ public class Post {
     private String timeInHours;
 
     @SerializedName("likes")
-    private boolean likes;
+    private Boolean likes;
+
+
 
 }

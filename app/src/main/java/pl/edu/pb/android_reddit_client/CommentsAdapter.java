@@ -3,6 +3,8 @@ package pl.edu.pb.android_reddit_client;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -78,12 +81,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
 
-
         public ViewHolder(@NonNull CommentsListBinding binding) {
 
             super(binding.getRoot());
-
-
 
         }
         public void bind(Comment comment) {
@@ -94,25 +94,29 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
 //            comment.getReplies().setVisibility(expanded ? View.VISIBLE : View.GONE);
 
-
-
             binding.parentAuthor.setText(comment.getAuthor());
             binding.parentBody.setText(comment.getBody());
             binding.parentTime.setText(comment.getTimeInHours());
             binding.parentScore.submissionScore.setText(comment.getScore()+"");
 
+            if(comment.getLikes() != null){
+                boolean likes = comment.getLikes();
+                if(likes){
+                    binding.parentScore.submissionUpvote.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
+                }
+                else{
+                    binding.parentScore.submissionDownvote.setButtonTintList(ColorStateList.valueOf(Color.RED));
+                }
+            }
+            else{
+                binding.parentScore.submissionDownvote.setButtonTintList(ColorStateList.valueOf(Color.GRAY));
+                binding.parentScore.submissionUpvote.setButtonTintList(ColorStateList.valueOf(Color.GRAY));
+            }
 
-
-            ReplyAdapter replyAdapter = new ReplyAdapter(comment.getReplies(), activity);
+            ReplyAdapter replyAdapter = new ReplyAdapter(comment.getReplies(), activity, redditAPI);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
             binding.nestedReply.setLayoutManager(linearLayoutManager);
             binding.nestedReply.setAdapter(replyAdapter);
-
-//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-//                NotificationChannel channel = new NotificationChannel("upvote", "upvote", NotificationManager.IMPORTANCE_DEFAULT);
-//                NotificationManager manager = activity.getSystemService(NotificationManager.class);
-//                manager.createNotificationChannel(channel);
-//            }
 
             binding.parentScore.submissionUpvote.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,26 +131,134 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                     NotificationManagerCompat managerCompat = NotificationManagerCompat.from(activity);
                     managerCompat.notify(1, builder.build());
 
-                    Call<Comment> call = redditAPI.commentUpvote(comment.getId());
+
+                    Call<Comment> callCommentUpvote = redditAPI.commentUpvote(comment.getId());
+
+                    ToggleButton button = v.findViewById(R.id.submission_upvote);
+                    if(comment.getLikes() == null){
+
+                        button.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
+
+                        callCommentUpvote.enqueue(new Callback<Comment>() {
+
+                            @Override
+                            public void onResponse(Call<Comment> callCommentUpvote, Response<Comment> response) {
+
+
+                                Log.d("upvote", "comment upvote success");
+//                            Post upvoted = response.body();
+
+                            }
+                            @Override
+                            public void onFailure(Call<Comment> callPostUpvote, Throwable t) {
+                                Log.d("getComments", "error comment upvote");
+                            }
+                        });
+                        Log.d("positionUpvote", String.valueOf(getBindingAdapterPosition()));
+                        comment.setLikes(true);
+//                        notifyItemChanged(getBindingAdapterPosition());
 
 
 
-                    call.enqueue(new Callback<Comment>() {
-                        @Override
-                        public void onResponse(Call<Comment> call, Response<Comment> response) {
-                            Comment upvoted = response.body();
 
-                            Log.d("faktycznie upvote", "upvoted");
+                    }else{
+                        boolean likes = comment.getLikes();
+                        if(likes){
+                            button.setButtonTintList(ColorStateList.valueOf(Color.GRAY));
+
+                            Call<Comment> callCommentUnvote = redditAPI.commentUnvote(comment.getId());
+
+                            callCommentUnvote.enqueue(new Callback<Comment>() {
+                                @Override
+                                public void onResponse(Call<Comment> call, Response<Comment> response) {
+
+                                    Log.d("unvote", "comment unvote success");
+                                }
+
+                                @Override
+                                public void onFailure(Call<Comment> call, Throwable t) {
+                                    Log.d("getComments", "error comment unvote");
+                                }
+                            });
+
+
+                            Log.d("positionUnvote", String.valueOf(getBindingAdapterPosition()));
+                            comment.setLikes(null);
+//                            notifyItemChanged(getBindingAdapterPosition());
+
+
+
+
+                            //unvote
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<Comment> call, Throwable t) {
-                            Log.d("getComments", t.getMessage());
+
+
+
+                }
+            });
+
+            binding.parentScore.submissionDownvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Call<Comment> callPostDownvote = redditAPI.commentDownvote(comment.getId());
+                    ToggleButton button = v.findViewById(R.id.submission_downvote);
+                    if(comment.getLikes() == null) {
+
+                        button.setButtonTintList(ColorStateList.valueOf(Color.RED));
+
+                        callPostDownvote.enqueue(new Callback<Comment>() {
+                            @Override
+                            public void onResponse(Call<Comment> callPostDownvote, Response<Comment> response) {
+                                Comment comment = response.body();
+
+//                                notifyItemChanged(post)
+                                Log.d("downvote", "comment downvote success");
+//                            Post downvoted = response.body();
+                            }
+                            @Override
+                            public void onFailure(Call<Comment> callPostDownvote, Throwable t) {
+                                Log.d("getComments", "error comment downvote");
+                            }
+                        });
+
+
+                        Log.d("positionDownvote", String.valueOf(getBindingAdapterPosition()));
+                        comment.setLikes(false);
+//                        notifyItemChanged(getBindingAdapterPosition());
+
+
+                    }
+                    else{
+                        boolean likes = comment.getLikes();
+                        if(!likes){
+                            button.setButtonTintList(ColorStateList.valueOf(Color.GRAY));
+
+                            Call<Comment> callCommentUnvote = redditAPI.commentUnvote(comment.getId());
+
+                            callCommentUnvote.enqueue(new Callback<Comment>() {
+                                @Override
+                                public void onResponse(Call<Comment> call, Response<Comment> response) {
+
+                                    Log.d("unvote", "comment unvote success");
+                                }
+
+                                @Override
+                                public void onFailure(Call<Comment> call, Throwable t) {
+                                    Log.d("getComments", "error comment unvote");
+                                }
+                            });
+
+                            Log.d("positionUnvote", String.valueOf(getBindingAdapterPosition()));
+                            comment.setLikes(null);
+//                                notifyItemChanged(getBindingAdapterPosition());
+
+
+                            //unvote
                         }
-                    });
-
-
-
+                    }
                 }
             });
 

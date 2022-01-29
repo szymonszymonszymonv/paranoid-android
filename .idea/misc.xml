@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2355" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2355" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/my_btn_toggle.xml" value="0.2355" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/toggle_background.xml" value="0.2355" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/togglebutton_off.xml" value="0.219" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/togglebutton_on.xml" value="0.219" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/drawable/togglebutton_selector.xml" value="0.219" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/comments_list.xml" value="0.33" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/content_main.xml" value="0.33" />
@@ -10,7 +17,7 @@
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/fragment_second.xml" value="0.33" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/post_item.xml" value="0.33" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/reply_list.xml" value="0.33" />
-        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/submission_score.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/layout/submission_score.xml" value="0.9" />
         <entry key="..\:/Users/Seba/Desktop/paranoid-android/app/src/main/res/menu/menu_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/kalar/AndroidStudioProjects/android_reddit_client/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/kalar/AndroidStudioProjects/android_reddit_client/app/src/main/res/layout/content_main.xml" value="0.16113744075829384" />

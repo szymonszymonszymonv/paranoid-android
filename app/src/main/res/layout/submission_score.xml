@@ -34,17 +34,19 @@
                 android:button="@android:drawable/arrow_up_float"
                 android:nestedScrollingEnabled="false"
                 android:textAllCaps="false"
+                android:buttonTint="@color/gray"
                 app:layout_constraintBottom_toTopOf="@+id/submission_score"
                 app:layout_constraintEnd_toEndOf="@+id/submission_score"
                 app:layout_constraintStart_toStartOf="@+id/submission_score" />
 
             <ToggleButton
-                android:id="@+id/toggleButton2"
+                android:id="@+id/submission_downvote"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:button="@android:drawable/arrow_down_float"
                 android:checked="false"
+                android:buttonTint="@color/gray"
                 app:layout_constraintEnd_toEndOf="@+id/submission_score"
                 app:layout_constraintStart_toStartOf="@+id/submission_score"
                 app:layout_constraintTop_toBottomOf="@+id/submission_score" />

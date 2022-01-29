@@ -34,7 +34,9 @@ public class Comment {
     private String timeInHours;
 
     @SerializedName("likes")
-    private boolean likes;
+    private Boolean likes;
+
+
 
 
 

@@ -21,6 +21,21 @@ public interface RedditAPI {
     @POST("comment/{id}/upvote")
     Call<Comment> commentUpvote(@Path("id") String postId);
 
+    @POST("{id}/upvote")
+    Call<Post> postUpvote(@Path("id") String postId);
+
+    @POST("comment/{id}/downvote")
+    Call<Comment> commentDownvote(@Path("id") String postId);
+
+    @POST("{id}/downvote")
+    Call<Post> postDownvote(@Path("id") String postId);
+
+    @POST("comment/{id}/unvote")
+    Call<Comment> commentUnvote(@Path("id") String postId);
+
+    @POST("{id}/unvote")
+    Call<Post> postUnvote(@Path("id") String postId);
+
 
 
 }
