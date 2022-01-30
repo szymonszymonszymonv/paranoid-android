@@ -1,5 +1,7 @@
 package pl.edu.pb.android_reddit_client;
 
+import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -19,9 +21,11 @@ import java.util.List;
 public class MySubredditRecyclerViewAdapter extends RecyclerView.Adapter<MySubredditRecyclerViewAdapter.ViewHolder> {
 
     private final List<Subreddit> mValues;
+    private final String subreddit;
 
-    public MySubredditRecyclerViewAdapter(List<Subreddit> items) {
+    public MySubredditRecyclerViewAdapter(List<Subreddit> items, String sub) {
         mValues = items;
+        subreddit = sub;
     }
 
     @Override
@@ -37,6 +41,8 @@ public class MySubredditRecyclerViewAdapter extends RecyclerView.Adapter<MySubre
         holder.subredditText.setText(mValues.get(position).getUrl());
         holder.descriptionText.setText(mValues.get(position).getDescription());
         holder.membersText.setText((mValues.get(position).getSubscribers()));
+
+
     }
 
     @Override
@@ -48,6 +54,7 @@ public class MySubredditRecyclerViewAdapter extends RecyclerView.Adapter<MySubre
         public final TextView subredditText;
         public final TextView membersText;
         public final TextView descriptionText;
+        public final CardView cardView;
         public Subreddit mItem;
 
         public ViewHolder(SubredditItemBinding binding) {
@@ -55,6 +62,19 @@ public class MySubredditRecyclerViewAdapter extends RecyclerView.Adapter<MySubre
             subredditText = binding.subredditText;
             membersText = binding.membersText;
             descriptionText = binding.subredditDescriptionText;
+            cardView = binding.subredditCard;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SubredditFragmentDirections.ActionSubredditFragmentToFirstFragment action =
+                            SubredditFragmentDirections.actionSubredditFragmentToFirstFragment();
+                    String sub = (String) subredditText.getText();
+                    // remove '/r/' and other slashes from the string
+                    sub = sub.substring(3, sub.length() - 1);
+                    action.setSubreddit(sub);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+            });
         }
 
         @Override

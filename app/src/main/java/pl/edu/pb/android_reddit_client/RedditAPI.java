@@ -11,8 +11,8 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
 
-    @GET("r/all")
-    Call<List<Post>> getPosts();
+    @GET("r/{subreddit}")
+    Call<List<Post>> getPosts(@Path("subreddit") String subreddit);
 
     @GET("r/all/{id}")
     Call<List<Comment>> getComments(@Path("id") String postId);

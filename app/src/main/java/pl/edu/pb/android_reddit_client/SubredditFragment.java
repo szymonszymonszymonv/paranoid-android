@@ -79,6 +79,7 @@ public class SubredditFragment extends Fragment {
                 .build();
         redditAPI = retrofit.create(RedditAPI.class);
         getSubreddits(subreddit);
+
     }
 
     public void getSubreddits(String subreddit) {
@@ -100,7 +101,7 @@ public class SubredditFragment extends Fragment {
 
     public void initRecyclerView() {
         recyclerView = binding.list;
-        subredditAdapter = new MySubredditRecyclerViewAdapter(subredditList);
+        subredditAdapter = new MySubredditRecyclerViewAdapter(subredditList, subreddit);
         recyclerView.setAdapter(subredditAdapter);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

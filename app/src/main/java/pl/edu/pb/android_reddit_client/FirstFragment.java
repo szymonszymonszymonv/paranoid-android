@@ -30,13 +30,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickListener {
     private final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
-
+    private String subreddit = "all";
     private RecyclerView recyclerView;
     private PostsAdapter postsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> postList;
     private RedditAPI redditAPI;
-
 
     @Override
     public View onCreateView(
@@ -51,13 +50,18 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(getArguments() != null) {
+            subreddit = FirstFragmentArgs.fromBundle(getArguments()).getSubreddit();
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.8:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         redditAPI = retrofit.create(RedditAPI.class);
         binding.postsToolbar.inflateMenu(R.menu.posts_menu);
-        binding.postsToolbar.setTitle("browing r/all");
+        binding.postsToolbar.setTitle("browsing " + subreddit);
+
         Menu menu = binding.postsToolbar.getMenu();
         MenuItem actionItem = menu.findItem(R.id.search_subreddit);
         SearchView searchView = (SearchView) actionItem.getActionView();
@@ -83,7 +87,7 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
                 return false;
             }
         });
-        getPosts();
+        getPosts(subreddit);
     }
 
     @Override
@@ -92,8 +96,8 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
         binding = null;
     }
 
-    public void getPosts() {
-        Call<List<Post>> call = redditAPI.getPosts();
+    public void getPosts(String subreddit) {
+        Call<List<Post>> call = redditAPI.getPosts(subreddit);
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
@@ -122,7 +126,8 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
     public void onPostClick(int position) {
         Post post = postList.get(position);
         Log.d(TAG, "clicked a post " + post.getId());
-        FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment();
+        FirstFragmentDirections.ActionFirstFragmentToSecondFragment action =
+                FirstFragmentDirections.actionFirstFragmentToSecondFragment();
         action.setPostId(post.getId());
         Navigation.findNavController(binding.getRoot()).navigate(action);
     }
