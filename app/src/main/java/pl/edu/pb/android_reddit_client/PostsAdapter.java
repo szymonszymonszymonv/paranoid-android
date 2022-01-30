@@ -47,7 +47,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             super(binding.getRoot());
             onPostClickListener = listener;
             binding.getRoot().setOnClickListener(this);
-
         }
         public void bind(Post post) {
             binding.authorText.setText(post.getAuthor());
@@ -192,10 +191,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                                 Log.d("positionUnvote", String.valueOf(getBindingAdapterPosition()));
                                 post.setLikes(null);
 //                                notifyItemChanged(getBindingAdapterPosition());
-
-
-
-
                                 //unvote
                             }
                         }
@@ -230,7 +225,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     @Override
     public void onBindViewHolder(@NonNull PostsViewHolder holder, int position) {
         holder.bind(posts.get(position));
-
     }
 
     @Override

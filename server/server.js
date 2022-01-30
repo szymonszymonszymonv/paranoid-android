@@ -533,7 +533,8 @@ app.get(`/search/:searchQuery`, (req, res) => {
             }
         })
 
-        res.send({ posts: posts, subreddits: subreddits })
+//        res.send({ posts: posts, subreddits: subreddits })
+        res.send(subreddits)
     })
 })
 

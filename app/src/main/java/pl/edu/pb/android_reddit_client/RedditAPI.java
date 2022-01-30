@@ -36,6 +36,9 @@ public interface RedditAPI {
     @POST("{id}/unvote")
     Call<Post> postUnvote(@Path("id") String postId);
 
+    @GET("search/{query}")
+    Call<List<Subreddit>> searchSubreddit(@Path("query") String query);
+
 
 
 }

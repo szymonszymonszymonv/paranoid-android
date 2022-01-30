@@ -131,14 +131,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                     NotificationManagerCompat managerCompat = NotificationManagerCompat.from(activity);
                     managerCompat.notify(1, builder.build());
 
-
                     Call<Comment> callCommentUpvote = redditAPI.commentUpvote(comment.getId());
 
                     ToggleButton button = v.findViewById(R.id.submission_upvote);
                     if(comment.getLikes() == null){
-
                         button.setButtonTintList(ColorStateList.valueOf(Color.GREEN));
-
                         callCommentUpvote.enqueue(new Callback<Comment>() {
 
                             @Override
@@ -157,9 +154,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                         Log.d("positionUpvote", String.valueOf(getBindingAdapterPosition()));
                         comment.setLikes(true);
 //                        notifyItemChanged(getBindingAdapterPosition());
-
-
-
 
                     }else{
                         boolean likes = comment.getLikes();
@@ -181,14 +175,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                                 }
                             });
 
-
                             Log.d("positionUnvote", String.valueOf(getBindingAdapterPosition()));
                             comment.setLikes(null);
 //                            notifyItemChanged(getBindingAdapterPosition());
-
-
-
-
                             //unvote
                         }
                     }

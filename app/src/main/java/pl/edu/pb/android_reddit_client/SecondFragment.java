@@ -42,22 +42,17 @@ public class SecondFragment extends Fragment {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
-
     }
 
-
-
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.14:5000/")
+                .baseUrl("http://192.168.1.8:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
         displayComments(retrofit);
-
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +61,7 @@ public class SecondFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
+
     }
 
     public void initRecyclerViewParent() {

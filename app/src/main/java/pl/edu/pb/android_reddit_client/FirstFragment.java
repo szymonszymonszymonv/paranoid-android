@@ -3,8 +3,12 @@ package pl.edu.pb.android_reddit_client;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,17 +44,45 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
             Bundle savedInstanceState
     ) {
         binding = FragmentFirstBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.14:5000/")
+                .baseUrl("http://192.168.1.8:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         redditAPI = retrofit.create(RedditAPI.class);
+        binding.postsToolbar.inflateMenu(R.menu.posts_menu);
+        binding.postsToolbar.setTitle("browing r/all");
+        Menu menu = binding.postsToolbar.getMenu();
+        MenuItem actionItem = menu.findItem(R.id.search_subreddit);
+        SearchView searchView = (SearchView) actionItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("SEARCH", "SearchOnQueryTextSubmit: " + query);
+                if( ! searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                actionItem.collapseActionView();
+                FirstFragmentDirections.ActionFirstFragmentToSubredditFragment action =
+                        FirstFragmentDirections.actionFirstFragmentToSubredditFragment();
+                action.setSubreddit(query);
+                Navigation.findNavController(binding.getRoot()).navigate(action);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("SEARCH", "onQueryTextChange: " + newText);
+                return false;
+            }
+        });
         getPosts();
     }
 
@@ -68,7 +100,6 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
                 List<Post> posts = response.body();
                 postList = posts;
                 initRecyclerView();
-
             }
 
             @Override
@@ -82,10 +113,9 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
     public void initRecyclerView() {
         recyclerView = binding.recyclerView;
         postsAdapter = new PostsAdapter(postList, this, redditAPI);
-        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(postsAdapter);
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
     }
 
     @Override
