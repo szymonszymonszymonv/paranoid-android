@@ -47,12 +47,11 @@ public class SecondFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.8:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+
+        SingletonRetrofit retrofit = SingletonRetrofit.getInstance();
 
         displayComments(retrofit);
+
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +72,8 @@ public class SecondFragment extends Fragment {
 
     }
 
-    public void displayComments(Retrofit retrofit) {
-        redditAPI = retrofit.create(RedditAPI.class);
+    public void displayComments(SingletonRetrofit retrofit) {
+        redditAPI = retrofit.getRetrofit().create(RedditAPI.class);
 
         if(getArguments() != null) {
             postId = SecondFragmentArgs.fromBundle(getArguments()).getPostId();

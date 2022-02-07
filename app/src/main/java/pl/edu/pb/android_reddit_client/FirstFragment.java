@@ -27,6 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickListener {
     private final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
@@ -54,11 +55,11 @@ public class FirstFragment extends Fragment implements PostsAdapter.OnPostClickL
             subreddit = FirstFragmentArgs.fromBundle(getArguments()).getSubreddit();
         }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.8:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        redditAPI = retrofit.create(RedditAPI.class);
+
+        SingletonRetrofit retrofit = SingletonRetrofit.getInstance();
+
+
+        redditAPI = retrofit.getRetrofit().create(RedditAPI.class);
         binding.postsToolbar.inflateMenu(R.menu.posts_menu);
         binding.postsToolbar.setTitle("browsing " + subreddit);
 
